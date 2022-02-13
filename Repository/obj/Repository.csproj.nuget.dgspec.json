@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\fsoto\\source\\repos\\DotNetCoreGenericRepository\\Repository\\Repository.csproj": {}
+    "C:\\Users\\fsoto\\Desktop\\GitPersonal\\GenericEFCoreRepositoryHelper\\Repository\\Repository.csproj": {}
   },
   "projects": {
-    "C:\\Users\\fsoto\\source\\repos\\DotNetCoreGenericRepository\\GenericRepositoryHelper\\GenericRepositoryHelper.csproj": {
+    "C:\\Users\\fsoto\\Desktop\\GitPersonal\\GenericEFCoreRepositoryHelper\\GenericRepository\\GenericRepository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fsoto\\source\\repos\\DotNetCoreGenericRepository\\GenericRepositoryHelper\\GenericRepositoryHelper.csproj",
-        "projectName": "GenericRepositoryHelper",
-        "projectPath": "C:\\Users\\fsoto\\source\\repos\\DotNetCoreGenericRepository\\GenericRepositoryHelper\\GenericRepositoryHelper.csproj",
+        "projectUniqueName": "C:\\Users\\fsoto\\Desktop\\GitPersonal\\GenericEFCoreRepositoryHelper\\GenericRepository\\GenericRepository.csproj",
+        "projectName": "GenericRepository",
+        "projectPath": "C:\\Users\\fsoto\\Desktop\\GitPersonal\\GenericEFCoreRepositoryHelper\\GenericRepository\\GenericRepository.csproj",
         "packagesPath": "C:\\Users\\fsoto\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fsoto\\source\\repos\\DotNetCoreGenericRepository\\GenericRepositoryHelper\\obj\\",
+        "outputPath": "C:\\Users\\fsoto\\Desktop\\GitPersonal\\GenericEFCoreRepositoryHelper\\GenericRepository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -47,17 +47,21 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Google.Cloud.Firestore": {
+              "target": "Package",
+              "version": "[2.5.0, )"
+            },
             "Microsoft.Data.SqlClient": {
               "target": "Package",
-              "version": "[3.0.1, )"
+              "version": "[4.0.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.11, )"
+              "version": "[5.0.12, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[5.0.11, )"
+              "version": "[5.0.12, )"
             }
           },
           "imports": [
@@ -79,14 +83,14 @@
         }
       }
     },
-    "C:\\Users\\fsoto\\source\\repos\\DotNetCoreGenericRepository\\Repository\\Repository.csproj": {
+    "C:\\Users\\fsoto\\Desktop\\GitPersonal\\GenericEFCoreRepositoryHelper\\Repository\\Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fsoto\\source\\repos\\DotNetCoreGenericRepository\\Repository\\Repository.csproj",
+        "projectUniqueName": "C:\\Users\\fsoto\\Desktop\\GitPersonal\\GenericEFCoreRepositoryHelper\\Repository\\Repository.csproj",
         "projectName": "Repository",
-        "projectPath": "C:\\Users\\fsoto\\source\\repos\\DotNetCoreGenericRepository\\Repository\\Repository.csproj",
+        "projectPath": "C:\\Users\\fsoto\\Desktop\\GitPersonal\\GenericEFCoreRepositoryHelper\\Repository\\Repository.csproj",
         "packagesPath": "C:\\Users\\fsoto\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fsoto\\source\\repos\\DotNetCoreGenericRepository\\Repository\\obj\\",
+        "outputPath": "C:\\Users\\fsoto\\Desktop\\GitPersonal\\GenericEFCoreRepositoryHelper\\Repository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -110,8 +114,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\fsoto\\source\\repos\\DotNetCoreGenericRepository\\GenericRepositoryHelper\\GenericRepositoryHelper.csproj": {
-                "projectPath": "C:\\Users\\fsoto\\source\\repos\\DotNetCoreGenericRepository\\GenericRepositoryHelper\\GenericRepositoryHelper.csproj"
+              "C:\\Users\\fsoto\\Desktop\\GitPersonal\\GenericEFCoreRepositoryHelper\\GenericRepository\\GenericRepository.csproj": {
+                "projectPath": "C:\\Users\\fsoto\\Desktop\\GitPersonal\\GenericEFCoreRepositoryHelper\\GenericRepository\\GenericRepository.csproj"
               }
             }
           }
@@ -128,11 +132,11 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.11, )"
+              "version": "[5.0.12, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[5.0.11, )"
+              "version": "[5.0.12, )"
             },
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",

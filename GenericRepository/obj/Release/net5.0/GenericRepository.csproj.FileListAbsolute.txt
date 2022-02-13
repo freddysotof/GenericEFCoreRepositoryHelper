@@ -1,0 +1,12 @@
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\bin\Release\net5.0\GenericRepository.deps.json
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\bin\Release\net5.0\GenericRepository.dll
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\bin\Release\net5.0\ref\GenericRepository.dll
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\bin\Release\net5.0\GenericRepository.pdb
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\obj\Release\net5.0\GenericRepository.csprojAssemblyReference.cache
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\obj\Release\net5.0\GenericRepository.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\obj\Release\net5.0\GenericRepository.AssemblyInfoInputs.cache
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\obj\Release\net5.0\GenericRepository.AssemblyInfo.cs
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\obj\Release\net5.0\GenericRepository.csproj.CoreCompileInputs.cache
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\obj\Release\net5.0\GenericRepository.dll
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\obj\Release\net5.0\ref\GenericRepository.dll
+C:\Users\fsoto\source\repos\DevOps\IHBona\GenericRepository\obj\Release\net5.0\GenericRepository.pdb

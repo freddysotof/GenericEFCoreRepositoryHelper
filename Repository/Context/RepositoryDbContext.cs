@@ -26,10 +26,15 @@ namespace Repository.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<EntityLog>()
+            .ToTable("DotNetCoreLog", "dbo")
+            //.HasKey(x => x.LogId)
+            .Property(x => x.Id).HasColumnName("LogId");
            
         }
 
         public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<EntityLog> EntityLogs { get; set; }
 
     }
 }

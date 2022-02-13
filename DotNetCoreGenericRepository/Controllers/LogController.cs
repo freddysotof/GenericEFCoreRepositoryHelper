@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Repository.Interfaces;
 using Repository.Models;
+using Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,13 @@ namespace DotNetCoreGenericRepository.Controllers
     [Route("[controller]")]
     public class LogController : ControllerBase
     {
-    
+
         private readonly ILogRepository _logger;
-        public LogController(ILogRepository logRepository)
+        private readonly EntityLogRepository _repository;
+        public LogController(ILogRepository logRepository, EntityLogRepository repository)
         {
             _logger = logRepository;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -26,6 +29,14 @@ namespace DotNetCoreGenericRepository.Controllers
             var result = await _logger.GetAllAsync();
             return Ok(result);
         }
+
+        [HttpGet("entity")]
+        public async Task<IActionResult> GetAllFromEntityAsync()
+        {
+            var result = await _repository.GetAllAsync();
+            return Ok(result);
+        }
+
 
         [HttpGet("manual")]
         public async Task<IActionResult> GetAllManualAsync()

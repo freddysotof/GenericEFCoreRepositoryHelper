@@ -1,6 +1,7 @@
 ﻿using DataService.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Repository.Interfaces;
+using Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Repository.Extensions
         public static void ConfigureRepositoryServices(this IServiceCollection services)
         {
             services.AddScoped<ILogRepository, LogRepository>();
+            services.AddScoped<EntityLogRepository>();
       
         }
 

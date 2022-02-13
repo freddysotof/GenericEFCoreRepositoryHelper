@@ -8,11 +8,10 @@ using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GenericRepositoryHelper;
-
+using GenericRepository.Helpers;
 namespace DataService.Repositories
 {
-    public class LogRepository : RepositoryHelper<Log,RepositoryDbContext>, ILogRepository
+    public class LogRepository : StoredProcedureHandler<Log>, ILogRepository
     {
         public LogRepository(RepositoryDbContext context)
         : base(context)
@@ -33,7 +32,7 @@ namespace DataService.Repositories
         }
         public async Task<Log> InsertAsync(Log entity)
         {
-            var results = await base.ExecuteSql(entity, ProcedureType.Create);
+            var results = await base.ExecuteSqlAsync(entity, ProcedureType.Create);
             entity.LogId = (int)results?.Where(x => x.ParameterName == "@LogId").FirstOrDefault().Value;
             entity.App = results?.Where(x => x.ParameterName == "@App").FirstOrDefault().Value.ToString();
             return entity;
@@ -133,25 +132,25 @@ namespace DataService.Repositories
                     Direction = ParameterDirection.Input,
                 }
             };
-            var results = await base.ExecuteSql("dbo.SP_InsertLog", sqlParameters);
+            var results = await base.ExecuteSqlAsync("dbo.SP_InsertLog", sqlParameters);
             log.LogId = (int)results?.Where(x => x.ParameterName == "@LogId").FirstOrDefault().Value;
             log.App = results?.Where(x => x.ParameterName == "@App").FirstOrDefault().Value.ToString();
             return log;
         }
         public async Task<Log> UpdateAsync(Log entity)
         {
-            await base.ExecuteSql(entity, ProcedureType.Update);
+            await base.ExecuteSqlAsync(entity, ProcedureType.Update);
             return entity;
         }
         public async Task<bool> ChangeStatusAsync(Log entity)
         {
-            await base.ExecuteSql(entity, ProcedureType.ChangeStatus);
+            await base.ExecuteSqlAsync(entity, ProcedureType.ChangeStatus);
             return true;
         }
         public async Task<bool> DeleteAsync(int id, string userId)
         {
             var Log = new Log { LogId = id };
-            await base.ExecuteSql(Log, ProcedureType.Delete);
+            await base.ExecuteSqlAsync(Log, ProcedureType.Delete);
             return true;
         }
         #endregion

@@ -1,4 +1,4 @@
-﻿using GenericRepositoryHelper.CustomAttributes.Database;
+﻿using GenericRepository.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,7 +12,7 @@ namespace Repository.Models
     {
         [InsertParameter(SqlDbType.Int, null, ParameterDirection.Output)]
         [UpdateParameter(SqlDbType.Int)]
-        [GetByParameter(SqlDbType.Int)]
+        [GetByParameter(SqlDbType.Int,true)]
         [ChangeStatusParameter(SqlDbType.Int)]
         [DeleteParameter(SqlDbType.Int)]
         public int? LogId { get; set; }
@@ -65,12 +65,12 @@ namespace Repository.Models
         [UpdateParameter(SqlDbType.VarChar)]
         public string RequestBody { get; set; }
 
-        [InsertParameter(SqlDbType.VarChar)]
-        [UpdateParameter(SqlDbType.VarChar)]
+        [InsertParameter(SqlDbType.VarChar,true)]
+        [UpdateParameter(SqlDbType.VarChar,true)]
         public string Reference { get; set; }
 
-        [InsertParameter(SqlDbType.VarChar)]
-        [UpdateParameter(SqlDbType.VarChar)]
+        [InsertParameter(SqlDbType.VarChar, true)]
+        [UpdateParameter(SqlDbType.VarChar,true)]
         public string Json { get; set; }
 
         [ChangeStatusParameter(SqlDbType.Int)]
