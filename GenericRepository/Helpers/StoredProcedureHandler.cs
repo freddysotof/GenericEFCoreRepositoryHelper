@@ -537,8 +537,8 @@ namespace GenericRepository.Helpers
             //using var transaction = _db.Database.BeginTransaction();
             string sqlRawQuery = null;
             List<SqlParameter> sqlParameters = null;
-            try
-            {
+            //try
+            //{
                 switch (procedureType)
                 {
                     case ProcedureType.Create:
@@ -561,11 +561,11 @@ namespace GenericRepository.Helpers
                 var result = await _db.Database.ExecuteSqlRawAsync(sqlRawQuery, sqlParameters);
                 //transaction.Commit();
                 //_db.Entry(_collections).State = EntityState.Detached;
-            }
-            catch (Exception e)
-            {
-                //transaction.Rollback();
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    //transaction.Rollback();
+            //}
             return sqlParameters?.Where(x => x.Direction == ParameterDirection.Output);
         }
 
@@ -610,8 +610,8 @@ namespace GenericRepository.Helpers
         public async virtual Task<IEnumerable<SqlParameter>> ExecuteSqlAsync(string procedureName = null,List <SqlParameter> sqlParameters=null)
         {
             //using var transaction = _db.Database.BeginTransaction();
-            try
-            {
+            //try
+            //{
                 string sqlRaw = $"{procedureName} {JoinSqlParameters(sqlParameters)}";
                 //int response;
                 if (sqlParameters == null)
@@ -620,11 +620,11 @@ namespace GenericRepository.Helpers
                     await _db.Database.ExecuteSqlRawAsync(sqlRaw, sqlParameters);
                 //_db.Entry(_collections).State = EntityState.Detached;
                 //transaction.Commit();
-            }
-            catch (Exception e)
-            {
-                //transaction.Rollback();
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    //transaction.Rollback();
+            //}
             return sqlParameters?.Where(x => x.Direction == ParameterDirection.Output);
         }
         // Ejecuta la sentencia Sql por medio del DbContext, nombre del procedure y parametros personalizados usando transaction 

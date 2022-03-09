@@ -8,6 +8,7 @@ using Google.Cloud.Firestore;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using System.Dynamic;
 
 namespace GenericRepository.Repositories.Firestore
 {
@@ -33,19 +34,62 @@ namespace GenericRepository.Repositories.Firestore
 
         public async Task<T> Get<T>(string id, CancellationToken ct) where T : IFirebaseEntity
         {
+            dynamic obj = new ExpandoObject();
             var document = _fireStoreDb.Collection($"{typeof(T).Name}s").Document(id);
+            IAsyncEnumerable<CollectionReference> subcollections = document.ListCollectionsAsync();
+            IAsyncEnumerator<CollectionReference> subcollectionsEnumerator = subcollections.GetAsyncEnumerator(default);
             var snapshot = await document.GetSnapshotAsync(ct);
-            T obj = snapshot.ConvertTo<T>();
+            obj = snapshot.ConvertTo<ExpandoObject>();
             obj.Id = snapshot.Id;
-            return obj;
+            while (await subcollectionsEnumerator.MoveNextAsync())
+            {
+                CollectionReference subcollectionRef = subcollectionsEnumerator.Current;
+                var subCollectionDocuments = await subcollectionRef.GetSnapshotAsync();
+                var subCollectionSnapshots = subCollectionDocuments.Documents.Select(doc =>
+                {
+                    dynamic obj2 = doc.ConvertTo<ExpandoObject>();
+                    obj2.Id = doc.Id;
+                    return obj2;
+                });
+                ((IDictionary<string, object>)obj)[subcollectionRef.Id] = subCollectionSnapshots;
+            }
+            var newObject = JsonConvert.SerializeObject(obj);
+            return JsonConvert.DeserializeObject<T>(newObject);
         }
         public async Task<T> Get<T>(string collectionName,string id, CancellationToken ct) where T : IFirebaseEntity
         {
+            dynamic obj = new ExpandoObject();
             var document = _fireStoreDb.Collection(collectionName).Document(id);
+            IAsyncEnumerable<CollectionReference> subcollections = document.ListCollectionsAsync();
+            IAsyncEnumerator<CollectionReference> subcollectionsEnumerator = subcollections.GetAsyncEnumerator(default);
+     
             var snapshot = await document.GetSnapshotAsync(ct);
-            T obj = snapshot.ConvertTo<T>();
+
+            obj = snapshot.ConvertTo<ExpandoObject>();
             obj.Id = snapshot.Id;
-            return obj;
+            while (await subcollectionsEnumerator.MoveNextAsync())
+            {
+                CollectionReference subcollectionRef = subcollectionsEnumerator.Current;
+                var subCollectionDocuments = await subcollectionRef.GetSnapshotAsync();
+                var subCollectionSnapshots = subCollectionDocuments.Documents.Select(doc =>
+                {
+                    dynamic obj2 = doc.ConvertTo<ExpandoObject>();
+                    obj2.Id = doc.Id;
+                    return obj2;
+                });
+                ((IDictionary<string, object>)obj)[subcollectionRef.Id] = subCollectionSnapshots;
+                //obj[subcollectionRef.Id] = subCollectionSnapshots;
+                //obj[subcollectionRef.Id] = subCollectionSnapshots.ToAsyncEnumerable();
+                //obj[subcollectionRef.Id] = subCollectionDocuments.Documents.Select(doc =>
+                //{
+                //    var obj = doc.ConvertTo<ExpandoObject>();
+                //    obj.Id = doc.Id;
+                //    return obj;
+                //}).ToList();
+            }
+            var newObject = JsonConvert.SerializeObject(obj);
+            return JsonConvert.DeserializeObject<T>(newObject);
+            //return JsonConvert.DeserializeObject<T>(((object)obj).ToString());
         }
 
         public async Task<DocumentSnapshot> GetCollection(string collectionName, string id, CancellationToken ct)
@@ -55,6 +99,34 @@ namespace GenericRepository.Repositories.Firestore
             return snapshot;
         }
 
+        //public async Task<IReadOnlyCollection<T>> GetAll<T>(CancellationToken ct) where T : IFirebaseEntity
+        //{
+        //    var collection = _fireStoreDb.Collection($"{typeof(T).Name}s");
+        //    var documents = collection.ListDocumentsAsync();
+        //    return (IReadOnlyCollection<T>)await documents.Select(async doc =>
+        //    {
+        //        dynamic obj = new ExpandoObject();
+        //        IAsyncEnumerable<CollectionReference> subcollections = doc.ListCollectionsAsync();
+        //        IAsyncEnumerator<CollectionReference> subcollectionsEnumerator = subcollections.GetAsyncEnumerator(default);
+        //        var snapshot = await doc.GetSnapshotAsync(ct);
+        //        obj = snapshot.ConvertTo<ExpandoObject>();
+        //        obj.Id = snapshot.Id;
+        //        while (await subcollectionsEnumerator.MoveNextAsync())
+        //        {
+        //            CollectionReference subcollectionRef = subcollectionsEnumerator.Current;
+        //            var subCollectionDocuments = await subcollectionRef.GetSnapshotAsync();
+        //            var subCollectionSnapshots = subCollectionDocuments.Documents.Select(doc =>
+        //            {
+        //                dynamic obj2 = doc.ConvertTo<ExpandoObject>();
+        //                obj2.Id = doc.Id;
+        //                return obj2;
+        //            });
+        //            ((IDictionary<string, object>)obj)[subcollectionRef.Id] = subCollectionSnapshots;
+        //        }
+        //        var newObject = JsonConvert.SerializeObject(obj);
+        //        return JsonConvert.DeserializeObject<T>(newObject);
+        //    }).ToListAsync(cancellationToken: ct);
+        //}
         public async Task<IReadOnlyCollection<T>> GetAll<T>(CancellationToken ct) where T : IFirebaseEntity
         {
             var collection = _fireStoreDb.Collection($"{typeof(T).Name}s");
@@ -66,16 +138,61 @@ namespace GenericRepository.Repositories.Firestore
                 return obj;
             }).ToList();
         }
-        public async Task<IReadOnlyCollection<T>> GetAll<T>(string collectionName,CancellationToken ct) where T : IFirebaseEntity
+        //public async Task<IReadOnlyCollection<T>> GetAll<T>(string collectionName,CancellationToken ct) where T : IFirebaseEntity
+        //{
+        //    var collection = _fireStoreDb.Collection(collectionName);
+        //    var snapshot = await collection.GetSnapshotAsync(ct);
+        //    return snapshot.Documents.Select(doc =>
+        //    {
+        //        T obj = doc.ConvertTo<T>();
+        //        obj.Id = doc.Id;
+        //        return obj;
+        //    }).ToList();
+        //}
+        public async Task<IReadOnlyCollection<T>> GetAll<T>(string collectionName, CancellationToken ct) where T : IFirebaseEntity
         {
             var collection = _fireStoreDb.Collection(collectionName);
-            var snapshot = await collection.GetSnapshotAsync(ct);
-            return snapshot.Documents.Select(doc =>
+            var documents = collection.ListDocumentsAsync();
+            IAsyncEnumerator<DocumentReference> documentsEnumerator = documents.GetAsyncEnumerator(default);
+            List<T> array = new(); 
+            while (await documentsEnumerator.MoveNextAsync())
             {
-                T obj = doc.ConvertTo<T>();
-                obj.Id = doc.Id;
-                return obj;
-            }).ToList();
+                try
+                {
+                    
+                    DocumentReference currentDocument = documentsEnumerator.Current;
+                    dynamic obj = new ExpandoObject();
+                    IAsyncEnumerable<CollectionReference> subcollections = currentDocument.ListCollectionsAsync();
+                    IAsyncEnumerator<CollectionReference> subcollectionsEnumerator = subcollections.GetAsyncEnumerator(default);
+                    var snapshot = await currentDocument.GetSnapshotAsync(ct);
+ 
+                    obj = snapshot.ConvertTo<ExpandoObject>();
+                    if (snapshot.Exists && !string.IsNullOrEmpty(snapshot.Id)){
+                        obj.id = snapshot.Id;
+                        while (await subcollectionsEnumerator.MoveNextAsync())
+                        {
+                           
+                            CollectionReference subcollectionRef = subcollectionsEnumerator.Current;
+                            var subCollectionDocuments = await subcollectionRef.GetSnapshotAsync();
+                            var subCollectionSnapshots = subCollectionDocuments.Documents.Select(doc =>
+                            {
+                                dynamic obj2 = doc.ConvertTo<ExpandoObject>();
+                                obj2.id = doc.Id;
+                                return obj2;
+                            });
+                            ((IDictionary<string, object>)obj)[subcollectionRef.Id] = subCollectionSnapshots;
+                            var newObject = JsonConvert.SerializeObject(obj);
+                            array.Add(JsonConvert.DeserializeObject<T>(newObject));
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+
+                }
+               
+            }
+            return array;
         }
 
         public async Task<IReadOnlyCollection<T>> WhereEqualTo<T>(string fieldPath, object value, CancellationToken ct) where T : IFirebaseEntity

@@ -3,6 +3,7 @@ using GenericRepository.Extensions;
 using GenericRepository.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -28,23 +29,37 @@ namespace GenericRepository.Repositories
             return entity;
         }
 
-        public virtual async Task<TEntity> DeleteAsync(int id)
+        //public virtual async Task<TEntity> DeleteAsync(int id)
+        //{
+        //    var entity = await _collections.FindAsync(id);
+        //    if (entity == null)
+        //    {
+        //        return entity;
+        //    }
+
+        //    _collections.Remove(entity);
+        //    await _context.SaveChangesAsync();
+
+        //    return entity;
+        //}
+        public virtual async Task<bool> DeleteAsync(int? id)
         {
-            var entity = await _collections.FindAsync(id);
+            var entity = await _collections.FindAsync((int)id);
             if (entity == null)
             {
-                return entity;
+                return false;
             }
 
             _collections.Remove(entity);
             await _context.SaveChangesAsync();
 
-            return entity;
+            return true;
         }
 
-        public virtual async Task<TEntity> GetOneAsync(int id)
+
+        public virtual async Task<TEntity> GetOneAsync(int? id)
         {
-            return await _collections.FindAsync(id);
+            return await _collections.FindAsync((int)id);
         }
 
         public virtual Task<IEnumerable<TEntity>> GetAllAsync()
@@ -54,9 +69,21 @@ namespace GenericRepository.Repositories
 
         public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
+            entity.UpdatedDate = DateTime.Now;
             _context.Entry(entity).State = EntityState.Modified;
+
             await _context.SaveChangesAsync();
             return entity;
+        }
+        public virtual async Task<bool> ChangeStatusAsync(TEntity entity)
+        {
+            var remoteEntity = await _collections.FindAsync(entity.Id);
+            remoteEntity.StatusId = entity.StatusId;
+            remoteEntity.UpdatedDate = DateTime.Now;
+            remoteEntity.UpdatedBy = entity.UpdatedBy;
+            _context.Entry(remoteEntity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return true;
         }
         public async Task<IEnumerable<SqlParameter>> ExecuteSqlAsync(string procedureName = null, List<SqlParameter> sqlParameters = null)
         {

@@ -14,7 +14,6 @@ C:\Users\fsoto\Desktop\GitPersonal\GenericEFCoreRepositoryHelper\GenericReposito
 C:\Users\fsoto\Desktop\GitPersonal\GenericEFCoreRepositoryHelper\GenericRepository\bin\Debug\net5.0\GenericRepository.dll
 C:\Users\fsoto\Desktop\GitPersonal\GenericEFCoreRepositoryHelper\GenericRepository\bin\Debug\net5.0\ref\GenericRepository.dll
 C:\Users\fsoto\Desktop\GitPersonal\GenericEFCoreRepositoryHelper\GenericRepository\bin\Debug\net5.0\GenericRepository.pdb
-C:\Users\fsoto\Desktop\GitPersonal\GenericEFCoreRepositoryHelper\GenericRepository\obj\Debug\net5.0\GenericRepository.csprojAssemblyReference.cache
 C:\Users\fsoto\Desktop\GitPersonal\GenericEFCoreRepositoryHelper\GenericRepository\obj\Debug\net5.0\GenericRepository.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\fsoto\Desktop\GitPersonal\GenericEFCoreRepositoryHelper\GenericRepository\obj\Debug\net5.0\GenericRepository.AssemblyInfoInputs.cache
 C:\Users\fsoto\Desktop\GitPersonal\GenericEFCoreRepositoryHelper\GenericRepository\obj\Debug\net5.0\GenericRepository.AssemblyInfo.cs

@@ -10,7 +10,7 @@ namespace Repository.Models
 {
    public class EntityLog:IEntity
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         //public int? LogId { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
@@ -31,7 +31,9 @@ namespace Repository.Models
         public string Reference { get; set; }
         public string Json { get; set; }
         public int? StatusId { get; set; }
-
-
+        public string CreatedBy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public DateTime CreatedDate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string UpdatedBy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public DateTime? UpdatedDate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
